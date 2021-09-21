@@ -308,7 +308,7 @@ local function updateShading(dialog, h, s, l, a)
     -- The "warm" and "cool" dichotomy doesn't make much
     -- sense for green. So the closer the hue is to the green
     -- range (130), the more it needs to shift its offset.
-    local offFac = math.abs(math.fmod(h, 180) - 130) / 180.0
+    local offFac = ((h - 130.0) % 360.0) / 360.0
     offFac = 1.0 - math.max(0.0, math.min(1.0, offFac))
     local off = (1.0 - offFac) * minGreenOff + offFac * maxGreenOff
     -- print(offFac)
