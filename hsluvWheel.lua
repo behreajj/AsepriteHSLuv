@@ -35,6 +35,8 @@ local dayHue = 76
 local shadowHue = 274
 local shadowLight = 10
 local dayLight = 90
+local minGreenOff = 0.5
+local maxGreenOff = 0.7
 
 local palColors = {
     Color(234,   0, 100, 255),
@@ -303,14 +305,26 @@ local function updateShading(dialog, h, s, l, a)
     local shades = {}
     local toFac = 1.0 / (shadingCount - 1.0)
 
+    -- The "warm" and "cool" dichotomy doesn't make much
+    -- sense for green. So the closer the hue is to the green
+    -- range (130), the more it needs to shift its offset.
+    local offFac = math.abs(math.fmod(h, 180) - 130) / 180.0
+    offFac = 1.0 - math.max(0.0, math.min(1.0, offFac))
+    local off = (1.0 - offFac) * minGreenOff + offFac * maxGreenOff
+    -- print(offFac)
+    -- print(off)
+
     for i = 0, shadingCount - 1, 1 do
         local t = srcLightWeight * lFac
                 + cmpLightWeight * (i * toFac)
         local u = 1.0 - t
-        local f = 0.5 * pingPong(t)
 
         local lShade = u * shadowLight + t * dayLight
         local hNeutral = lerpFunc(shadowHue, dayHue, t, 360.0)
+
+        local tOsc = pingPong(t)
+        local f = tOsc * off
+
         local hShade = lerpAngleNear(h, hNeutral, f, 360.0)
         local hsluvtup = { hShade, s, lShade }
         local shadetup = hsluv.hsluv_to_rgb(hsluvtup)
