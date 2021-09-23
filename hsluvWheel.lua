@@ -35,8 +35,9 @@ local dayHue = 76
 local shadowHue = 274
 local shadowLight = 10
 local dayLight = 90
-local minGreenOff = 0.5
-local maxGreenOff = 0.7
+local greenHue = 120.0
+local minGreenOff = 0.4
+local maxGreenOff = 0.65
 
 local palColors = {
     Color(234,   0, 100, 255),
@@ -211,8 +212,10 @@ local function lerpAngleCw(origin, dest, t, range)
     end
 end
 
-local function pingPong(t)
-    return 0.5 + 0.5 * math.cos((t - 0.5) * 6.283185307179586)
+local function zigZag(t)
+    local a = t * 0.5
+    local b = a - math.floor(a)
+    return 1.0 - math.abs(b + b - 1.0)
 end
 
 local function rgbTupToAseColor(rgb, a)
@@ -299,7 +302,7 @@ local function updateShading(dialog, h, s, l, a)
     -- Decide on a weight betweeen absolute lightness
     -- and relative lightness based on the source.
     local lFac = l * 0.01
-    local srcLightWeight = 0.333
+    local srcLightWeight = 0.3333333333333333
     local cmpLightWeight = 1.0 - srcLightWeight
 
     local shades = {}
@@ -308,21 +311,22 @@ local function updateShading(dialog, h, s, l, a)
     -- The "warm" and "cool" dichotomy doesn't make much
     -- sense for green. So the closer the hue is to the green
     -- range (130), the more it needs to shift its offset.
-    local offFac = ((h - 130.0) % 360.0) / 360.0
+    local offFac = ((h - greenHue) % 360.0) / 360.0
     offFac = 1.0 - math.max(0.0, math.min(1.0, offFac))
     local off = (1.0 - offFac) * minGreenOff + offFac * maxGreenOff
     -- print(offFac)
     -- print(off)
 
     for i = 0, shadingCount - 1, 1 do
+        local iPrc = i * toFac
         local t = srcLightWeight * lFac
-                + cmpLightWeight * (i * toFac)
+                + cmpLightWeight * iPrc
         local u = 1.0 - t
 
         local lShade = u * shadowLight + t * dayLight
         local hNeutral = lerpFunc(shadowHue, dayHue, t, 360.0)
 
-        local tOsc = pingPong(t)
+        local tOsc = zigZag(t)
         local f = tOsc * off
 
         local hShade = lerpAngleNear(h, hNeutral, f, 360.0)
@@ -441,13 +445,13 @@ dlg:shades {
     label = "Shading:",
     mode = "pick",
     colors = {
-        Color(114,   0,  58, 255),
-        Color(150,   0,  86, 255),
-        Color(190,   0, 106, 255),
-        Color(233,   0, 109, 255),
-        Color(255,  72, 106, 255),
-        Color(255, 125, 134, 255),
-        Color(255, 164, 174, 255) },
+        Color(115,   0,  54, 255),
+        Color(152,   0,  75, 255),
+        Color(192,   0,  93, 255),
+        Color(233,   0, 105, 255),
+        Color(255,  71, 113, 255),
+        Color(255, 126, 130, 255),
+        Color(255, 166, 154, 255) },
     visible = defaults.showShading,
     onclick = function(ev)
         local button = ev.button

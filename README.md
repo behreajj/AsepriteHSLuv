@@ -41,9 +41,9 @@ Click on the `Wheel Settings` and `Harmonies` toggles to show more parameters. F
 
 Supported harmonies are: analogous, complementary, split, square and triadic. Left click on a harmony to make it the picker's primary color. Right click on a harmony to assign it to the foreground.
 
-This tool -- its harmony and shading features in particular -- is an imperfect aide to artistic judgment, not a replacement for it. See Pixel Parmesan's "[Color Theory for Pixel Artists: It's All Relative](https://pixelparmesan.com/color-theory-for-pixel-artists-its-all-relative/)" on the subject.
-
 The underlined letters on each button indicate that they work with keyboard shortcuts: `Alt+F` gets the foreground color, `Alt+B` gets the background color, `Alt+C` closes the dialog, `Alt+W` creates a wheel.
+
+This tool -- its harmony and shading features in particular -- is an imperfect aide to artistic judgment, not a replacement for it. See Pixel Parmesan's "[Color Theory for Pixel Artists: It's All Relative](https://pixelparmesan.com/color-theory-for-pixel-artists-its-all-relative/)" on the subject.
 
 _This script was tested in Aseprite version 1.3-beta-6._ It assumes that it will be used in RGB color mode, not indexed or gray mode. Furthermore, it assumes that [sRGB](https://www.wikiwand.com/en/SRGB) (standard RGB) is the working color space.
 
@@ -55,7 +55,7 @@ HSLuv is by [Alexei Boronine](https://github.com/boronine). The Lua implementati
 
 ## Changes
 
-Changes have been made to the Lua code. First, to remove hexadecimal `string` conversions. Second to update function conventions, i.e., `math.atan` (not `math.atan2`) and `math.rad`. Third, to avoid unecessary square root calculations for desaturated colors. Fourth, simplify the dot product implementation.
+Changes have been made to the Lua code. First, to remove hexadecimal `string` conversions. Second to update function conventions, i.e., `math.atan` (not `math.atan2`) and `math.rad`. Third, to avoid unecessary square root calculations for desaturated colors. Fourth, to simplify the dot product implementation.
 
 ## License
 
