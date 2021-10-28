@@ -15,6 +15,8 @@ From the website linked above, HSLuv is
 
 Aseprite is an "animated sprite editor & pixel art tool."
 
+**This repository has been superseded by the [OKHSL](https://github.com/behreajj/AsepriteOkHsl) color picker. See Bjorn Ottosson's [article](https://bottosson.github.io/posts/colorpicker/) for a comparison with HSLuv.**
+
 ## Installation
 
 To use this script, open Aseprite, go to `File > Scripts > Open Scripts Folder`. Copy and paste the two Lua scripts from this repository into that folder. Return to Aseprite; go to `File > Scripts > Rescan Scripts Folder` (the default hotkey is `F5`). The two scripts should now be listed under `File > Scripts`. Select `hsluvWheel` to launch the dialog.
